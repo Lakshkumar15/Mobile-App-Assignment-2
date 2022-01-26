@@ -48,6 +48,31 @@ const AddScreen = (props) => {
         });
       };
 
+      let deleteTask = () => {
+        db.transaction((tx) => {
+          tx.executeSql(
+            'DELETE FROM  table_todo where id=?',
+            [props.route.params.item.id],
+            (tx, results) => {
+              console.log('Results', results.rowsAffected);
+              if (results.rowsAffected > 0) {
+                Alert.alert(
+                  'Success',
+                  'Task deleted successfully',
+                  [
+                    {
+                      text: 'Ok',
+                      onPress: () => props.navigation.navigate('Home'),
+                    },
+                  ],
+                  { cancelable: false }
+                );
+              }
+            }
+          );
+        });
+      };
+
       let update_task = () => {
     
         if (!title) {
@@ -93,16 +118,16 @@ const AddScreen = (props) => {
           placeholder="Title"
           value={title}
           onChangeText={(val) => setTitle(val)}
-          style = {{borderWidth: 1}}
+          style = {{fontWeight: 'bold', paddingHorizontal: 20, fontSize: 17,borderWidth: 1, borderRadius: 10, width: "90%", alignSelf: 'center', marginTop: 15}}
           />
           <TextInput
           placeholder="content"
           value={cont}
           onChangeText={(val) => setCont(val)}
-          style = {{borderWidth: 1, height: 200}}
+          style = {{fontWeight: 'bold', paddingHorizontal: 20, fontSize: 17,borderWidth: 1, borderRadius: 10, width: "90%", alignSelf: 'center', marginTop: 15, height: 200}}
           />
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical:15}}>
-<Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical:15, width: "90%", alignSelf: 'center', marginTop: 15,borderWidth: 0.5, borderRadius: 5, paddingHorizontal: 5}}>
+<Text style={{alignSelf: 'center'}}>
     Turn on switch if task completed.
 </Text>
           <Switch
@@ -128,11 +153,21 @@ const AddScreen = (props) => {
                 }
     
     }}
-           style={{ alignSelf: 'center', borderWidth: 1, marginVertical: 10}}>
-              <Text>
+           style={{ alignSelf: 'center', borderWidth: 1, marginVertical: 10, borderRadius: 5, }}>
+              <Text style={{fontSize: 20, margin: 10, color: 'black'}}>
                   {props.route.params.work} Task
               </Text>
           </TouchableOpacity>
+          {
+            props.route.params.work == 'Edit' ? 
+            <TouchableOpacity
+          onPress={() => { deleteTask() }}
+           style={{ alignSelf: 'center', borderWidth: 1, marginVertical: 10, borderRadius: 5}}>
+              <Text style={{fontSize: 20, margin: 10, color: 'black'}}>
+                Delete Task
+              </Text>
+          </TouchableOpacity>: null
+          }
 </View>
     );
 }
