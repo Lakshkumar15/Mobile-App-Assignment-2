@@ -17,7 +17,7 @@ const App = () => {
         <Stack.Screen
           name="AddScreen"
           component={AddScreen}
-          ptions={{ title: 'Task' }}
+        options={{ title: 'Task' }}
         />
        
       </Stack.Navigator>
