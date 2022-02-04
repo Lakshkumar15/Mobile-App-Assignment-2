@@ -1,11 +1,12 @@
 import React,{useState} from "react";
-import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity, Alert, Switch } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert, Switch } from "react-native";
 import { openDatabase } from 'react-native-sqlite-storage';
 
 var db = openDatabase({ name: 'UserDatabase.db' });
 
 
 const AddScreen = (props) => {
+  console.log(props);
     //console.log(props.route.params)
     const [title, setTitle] = useState(props.route.params.item.title);
     const [cont, setCont] = useState(props.route.params.item.cont);
