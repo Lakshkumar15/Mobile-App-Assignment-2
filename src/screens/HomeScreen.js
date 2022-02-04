@@ -24,15 +24,15 @@ const HomeScreen = (props) => {
       const willFocusSubscription = props.navigation.addListener('focus', () => {
         db.transaction(function (txn) {
           txn.executeSql(
-            "SELECT name FROM sqlite_master WHERE type='table' AND name='table_user'",
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='table_todo'",
             [],
             function (tx, res) {
               console.log('item:', res.rows.length);
-              if (res.rows.length == 1) {
+              if (res.rows.length == 0) {
                 //txn.executeSql('DROP TABLE IF EXISTS table_todo', []);
                 
                 txn.executeSql(
-                  'CREATE TABLE IF NOT EXISTS table_todo(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(1000), cont VARCHAR(1000), status INTEGER)',
+                  'CREATE TABLE IF NOT EXISTS table_todo(id INTEGER PRIMARY KEY AUTOINCREMENT, title VARCHAR(10000), cont VARCHAR(10000), status INTEGER)',
                   [],
                   function (tx, res) {
                       console.log(res)
@@ -116,7 +116,7 @@ const [sData, setSData] = useState();
           </Text>
 <FlatList 
       data = {sData}
-      keyExtractor = {item => `${item.title}`}
+      keyExtractor = {item => `${item.id}`}
       renderItem = {({item}) => {
         return (
           <View>
